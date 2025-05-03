@@ -2,6 +2,8 @@ import torch
 from torch.nn.functional import silu
 from types import MethodType
 
+torch.backends.cuda.matmul.allow_tf32 = True
+
 from modules import devices, sd_hijack_optimizations, shared, script_callbacks, errors, sd_unet, patches
 from modules.hypernetworks import hypernetwork
 from modules.shared import cmd_opts
