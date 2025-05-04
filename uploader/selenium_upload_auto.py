@@ -1,30 +1,32 @@
-# selenium_upload_auto.py — 어도비스톡 자동 업로드 + 메타데이터 자동 입력
+# selenium_upload_auto.py — 어도비스톡 자동 업로드 + 메타데이터 자동 입력 (dotenv 연동)
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 import time
-import json
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+ADOBE_EMAIL = os.getenv("ADOBE_EMAIL")
+ADOBE_PASSWORD = os.getenv("ADOBE_PASSWORD")
 
 def upload_to_adobestock_auto(image_path, title, desc, keywords):
     chrome_options = Options()
     chrome_options.add_argument("--start-maximized")
     driver = webdriver.Chrome(service=Service(), options=chrome_options)
 
-    with open("uploader/credential.json", "r") as f:
-        cred = json.load(f)
-
     driver.get("https://contributor.stock.adobe.com")
     time.sleep(3)
 
     driver.find_element(By.LINK_TEXT, "로그인").click()
     time.sleep(2)
-    driver.find_element(By.ID, "EmailPage-EmailField").send_keys(cred["email"])
+    driver.find_element(By.ID, "EmailPage-EmailField").send_keys(ADOBE_EMAIL)
     driver.find_element(By.ID, "EmailPage-ContinueButton").click()
     time.sleep(2)
-    driver.find_element(By.ID, "PasswordPage-PasswordField").send_keys(cred["password"])
+    driver.find_element(By.ID, "PasswordPage-PasswordField").send_keys(ADOBE_PASSWORD)
     driver.find_element(By.ID, "PasswordPage-SignInButton").click()
     time.sleep(5)
 
