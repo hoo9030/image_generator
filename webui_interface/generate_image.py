@@ -25,6 +25,15 @@ def generate_image(prompt_dict: dict) -> str:
 
     config = style_config[style]
 
+    if not isinstance(prompt, str) or len(prompt.strip()) == 0:
+        raise ValueError("[오류] prompt 값이 None 이거나 비어 있습니다.")
+
+    print("=== DEBUG PAYLOAD ===")
+    print("prompt:", prompt)
+    print("steps:", config.get("steps"))
+    print("cfg_scale:", config.get("cfg_scale"))
+    print("sampler_index:", config.get("sampler_index"))
+
     payload = {
         "prompt": prompt,
         "steps": config["steps"],
