@@ -3,7 +3,7 @@
 from prompts.prompt_generator import generate_prompt
 from webui_interface.generate_image import generate_image
 from metadata.tag_generator import generate_metadata
-from uploader.selenium_upload import upload_to_adobestock_auto
+from uploader.selenium_upload_auto import upload_to_adobestock_auto
 from utils.git_sync import push_changes
 import time
 
@@ -33,7 +33,7 @@ def run_single(style="premium"):
     push_changes()
     print("[5] GitHub 푸시 완료")
 
-def run_batch(n=5, delay=10):
+def run_batch(n=3, delay=10):
     for i in range(n):
         print(f"\n==== {i+1} / {n} ====")
         try:
