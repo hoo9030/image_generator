@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 API_URL = os.getenv("WEBUI_API", "http://127.0.0.1:7860")
-OUTPUT_DIR = os.path.expanduser(os.getenv("OUTPUT_DIR", "~/stable-diffusion-webui/outputs/txt2img-images"))
+OUTPUT_DIR = os.path.expanduser(os.getenv("OUTPUT_DIR", "D:\stable_diffusion\image_generator\outputs\txt2img-images"))
 
 def generate_image(prompt_dict: dict) -> str:
     style = prompt_dict.get("style", "default")
