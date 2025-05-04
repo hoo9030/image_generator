@@ -28,7 +28,9 @@ def generate_image(prompt_dict: dict) -> str:
         "width": 2560,
         "height": 1600,
         "batch_size": 1,
-        "save_images": True
+        "save_images": True,
+        "enable_hr": True,
+        "enable_tiled_vae": True
     }
 
     response = requests.post(f"{API_URL}/sdapi/v1/txt2img", json=payload)
