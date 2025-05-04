@@ -1,0 +1,13 @@
+# 자동 생성 파일 제외
+__pycache__/
+*.pyc
+
+# 프롬프트 로그 제외
+generated_prompts.txt
+
+# 크롬 드라이버 캐시 등
+chromedriver.log
+selenium-screenshot.png
+
+# 개인 정보
+uploader/credential.json
