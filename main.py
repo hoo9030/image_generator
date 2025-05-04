@@ -3,7 +3,7 @@
 from prompts.prompt_generator import generate_prompt
 from webui_interface.generate_image import generate_image
 from metadata.tag_generator import generate_metadata
-from uploader.selenium_upload import upload_to_adobestock
+from uploader.selenium_upload import upload_to_adobestock_auto
 from utils.git_sync import push_changes
 import time
 
@@ -26,7 +26,7 @@ def run_single(style="premium"):
     print("[3] 메타데이터 생성 완료")
 
     # 4. Adobe Stock 업로드
-    upload_to_adobestock(image_path, title, desc, ", ".join(final_keywords))
+    upload_to_adobestock_auto(image_path, title, desc, ", ".join(final_keywords))
     print("[4] Adobe Stock 업로드 완료")
 
     # 5. Git 자동 푸시
