@@ -4,7 +4,7 @@ from prompts.prompt_generator import generate_prompt
 from webui_interface.generate_image import generate_image
 from metadata.tag_generator import generate_metadata
 from uploader.selenium_upload import upload_to_adobestock
-import utils.git_sync as git
+from utils.git_sync import push_changes
 
 def main():
     # 1. 프롬프트 생성
@@ -24,7 +24,7 @@ def main():
     print("[4] Adobe Stock 업로드 완료")
 
     # 5. Git 자동 푸시
-    git.push_changes()
+    push_changes()
     print("[5] GitHub 푸시 완료")
 
 if __name__ == "__main__":
