@@ -13,7 +13,13 @@ load_dotenv()
 ADOBE_EMAIL = os.getenv("ADOBE_EMAIL")
 ADOBE_PASSWORD = os.getenv("ADOBE_PASSWORD")
 
+if not ADOBE_EMAIL or not ADOBE_PASSWORD:
+    raise EnvironmentError(".env 파일에서 ADOBE_EMAIL 또는 ADOBE_PASSWORD를 불러올 수 없습니다.")
+
 def upload_to_adobestock_auto(image_path, title, desc, keywords):
+    if not os.path.isfile(image_path):
+        raise FileNotFoundError(f"이미지 파일을 찾을 수 없습니다: {image_path}")
+
     chrome_options = Options()
     chrome_options.add_argument("--start-maximized")
     driver = webdriver.Chrome(service=Service(), options=chrome_options)
