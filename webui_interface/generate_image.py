@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 API_URL = os.getenv("WEBUI_API", "http://127.0.0.1:7860")
-OUTPUT_DIR = os.path.expanduser(os.getenv("OUTPUT_DIR", "D:\stable_diffusion\image_generator\outputs\txt2img-images"))
+OUTPUT_DIR = os.path.expanduser(os.getenv("OUTPUT_DIR", "~/stable-diffusion-webui/outputs/txt2img-images"))
 
 def generate_image(prompt_dict: dict) -> str:
     style = prompt_dict.get("style", "default")
@@ -18,7 +18,12 @@ def generate_image(prompt_dict: dict) -> str:
         "premium": {"steps": 35, "cfg_scale": 8.5, "sampler_index": "DPM++ 2M SDE Karras"},
         "casual": {"steps": 28, "cfg_scale": 6.0, "sampler_index": "Euler a"},
     }
-    config = style_config.get(style, style_config["default"])
+
+    if style not in style_config:
+        print(f"[오류] 지원되지 않는 style 키워드: {style}, default로 변경")
+        style = "default"
+
+    config = style_config[style]
 
     payload = {
         "prompt": prompt,
