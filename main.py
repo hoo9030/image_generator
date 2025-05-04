@@ -8,11 +8,12 @@ from utils.git_sync import push_changes
 
 def main():
     # 1. 프롬프트 생성
-    prompt = generate_prompt("business")
+    prompt_data = generate_prompt("business", style="premium")
     print("[1] 프롬프트 생성 완료")
+    print("Prompt:", prompt_data["prompt"])
 
     # 2. 이미지 생성
-    image_path = generate_image(prompt)
+    image_path = generate_image(prompt_data)
     print(f"[2] 이미지 생성 완료: {image_path}")
 
     # 3. 메타데이터 생성
