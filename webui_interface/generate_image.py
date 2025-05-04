@@ -1,11 +1,14 @@
-# generate_image.py — WebUI 이미지 생성 모듈 with 스타일 기반 설정
+# generate_image.py — WebUI 이미지 생성 모듈 with 스타일 기반 설정 (dotenv 연동)
 import requests
 import os
-import time
+from dotenv import load_dotenv
+
+load_dotenv()
+
+API_URL = os.getenv("WEBUI_API", "http://127.0.0.1:7860")
+OUTPUT_DIR = os.path.expanduser(os.getenv("OUTPUT_DIR", "~/stable-diffusion-webui/outputs/txt2img-images"))
 
 def generate_image(prompt_dict: dict) -> str:
-    api_url = "http://127.0.0.1:7860/sdapi/v1/txt2img"
-
     style = prompt_dict.get("style", "default")
     prompt = prompt_dict["prompt"]
 
@@ -28,13 +31,15 @@ def generate_image(prompt_dict: dict) -> str:
         "save_images": True
     }
 
-    response = requests.post(api_url, json=payload)
+    response = requests.post(f"{API_URL}/sdapi/v1/txt2img", json=payload)
     response.raise_for_status()
     result = response.json()
 
-    output_dir = os.path.expanduser("~/stable-diffusion-webui/outputs/txt2img-images")
+    if not os.path.exists(OUTPUT_DIR):
+        raise FileNotFoundError(f"OUTPUT_DIR 경로가 존재하지 않습니다: {OUTPUT_DIR}")
+
     latest_file = max(
-        [os.path.join(output_dir, f) for f in os.listdir(output_dir) if f.endswith(".png")],
+        [os.path.join(OUTPUT_DIR, f) for f in os.listdir(OUTPUT_DIR) if f.endswith(".png")],
         key=os.path.getctime
     )
     return latest_file
