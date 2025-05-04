@@ -43,4 +43,4 @@ def run_batch(n=3, delay=10):
         time.sleep(delay)
 
 if __name__ == "__main__":
-    run_batch(n=3)
+    run_batch(n=1)
