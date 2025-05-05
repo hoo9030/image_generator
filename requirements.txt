@@ -1,17 +1,8 @@
-# 기본 의존성
 requests
 selenium
-
-# WebDriver 자동설치 도구 (옵션)
 webdriver-manager
-
-# 이미지 캡션 생성 등 (선택적)
 torch
 torchvision
 transformers
-
-# BLIP 기반 태그 생성용 (tag_generator에서 활용 가능)
 Pillow
-
-# 기타 유틸성
 python-dotenv

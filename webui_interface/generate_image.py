@@ -1,7 +1,10 @@
-# generate_image.py — WebUI 이미지 생성 모듈 with 스타일 기반 설정 (dotenv 연동)
+# generate_image.py — WebUI API 호출 기반 이미지 생성 모듈
 import requests
 import os
 from dotenv import load_dotenv
+
+# 공통 설정 모듈 import
+from core.image_runner import get_image_config, get_default_dimensions, get_default_flags
 
 load_dotenv()
 
@@ -12,18 +15,9 @@ def generate_image(prompt_dict: dict) -> str:
     style = prompt_dict.get("style", "default")
     prompt = prompt_dict["prompt"]
 
-    style_config = {
-        "default": {"steps": 30, "cfg_scale": 7.0, "sampler_index": "DPM++ 2M Karras"},
-        "minimal": {"steps": 25, "cfg_scale": 6.5, "sampler_index": "DPM++ SDE Karras"},
-        "premium": {"steps": 35, "cfg_scale": 8.5, "sampler_index": "DPM++ 2M SDE Karras"},
-        "casual": {"steps": 28, "cfg_scale": 6.0, "sampler_index": "Euler a"},
-    }
-
-    if style not in style_config:
-        print(f"[오류] 지원되지 않는 style 키워드: {style}, default로 변경")
-        style = "default"
-
-    config = style_config[style]
+    config = get_image_config(style)
+    width, height = get_default_dimensions()
+    flags = get_default_flags()
 
     if not isinstance(prompt, str) or len(prompt.strip()) == 0:
         raise ValueError("[오류] prompt 값이 None 이거나 비어 있습니다.")
@@ -39,12 +33,12 @@ def generate_image(prompt_dict: dict) -> str:
         "steps": config["steps"],
         "cfg_scale": config["cfg_scale"],
         "sampler_index": config["sampler_index"],
-        "width": 2560,
-        "height": 1600,
+        "width": width,
+        "height": height,
         "batch_size": 1,
         "save_images": True,
-        "enable_hr": True,
-        "enable_tiled_vae": True
+        "enable_hr": flags["enable_hr"],
+        "enable_tiled_vae": flags["enable_tiled_vae"]
     }
 
     response = requests.post(f"{API_URL}/sdapi/v1/txt2img", json=payload)
